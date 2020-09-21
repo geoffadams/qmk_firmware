@@ -10,6 +10,38 @@
 
 #define LCTL_ESC MT(MOD_LCTL, KC_ESC)
 
+#define KVM_KEYDELAY 250
+
+enum custom_keycodes {
+  KVM_RSTW0 = SAFE_RANGE,
+  KVM_RSTW1,
+  KVM_RSTW2,
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KVM_RSTW0:
+      if (record->event.pressed) {
+        // when keycode QMKBEST is pressed
+        SEND_STRING(SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) "w" SS_DELAY(KVM_KEYDELAY) "0");
+      }
+      break;
+    case KVM_RSTW1:
+      if (record->event.pressed) {
+        // when keycode QMKBEST is pressed
+        SEND_STRING(SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) "w" SS_DELAY(KVM_KEYDELAY) "1");
+      }
+      break;
+    case KVM_RSTW2:
+      if (record->event.pressed) {
+        // when keycode QMKBEST is pressed
+        SEND_STRING(SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) SS_TAP(X_LCTL) SS_DELAY(KVM_KEYDELAY) "w" SS_DELAY(KVM_KEYDELAY) "2");
+      }
+      break;
+  }
+  return true;
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_DEFAULT] = LAYOUT_all(
 		KC_ESC,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   XXXXX,    KC_BSPC,
@@ -36,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 	[_KBD] = LAYOUT_all(
-		RESET,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,
+		RESET,    KVM_RSTW1,KVM_RSTW2,KVM_RSTW0,_____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,
     _____,              RGB_TOG,  RGB_MOD,  RGB_HUI,  RGB_HUD,  RGB_SAI,  RGB_SAD,  RGB_VAI,  RGB_VAD,  _____,    _____,    _____,    _____,    _____,
     _____,              _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,
     _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,    _____,
